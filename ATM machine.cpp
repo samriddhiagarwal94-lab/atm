@@ -1,29 +1,29 @@
 #include <stdio.h>
 
 int main() {
-    int pin = 0;          // Stores user's PIN
-    int choice;           // Menu choice
-    float balance = 0;    // Account balance
+    int pin = 0;
+    int choice;
+    float balance = 0.0;
 
-    // Transaction history arrays (max 10 records)
-    int type[10];         // 1 = Balance check, 2 = Deposit, 3 = Withdraw
-    float amount[10];     // Amount involved
-    float after[10];      // Balance after transaction
-    int count = 0;        // Number of transactions stored
+    int type[10];
+    float amount[10];
+    float after[10];
+    int count = 0;
 
     int first, i;
 
     printf("=== STUDENT ATM PROJECT ===\n\n");
 
-    // Step 1: First-time user setup
     printf("Is this your first time? (1 = Yes, 0 = No): ");
     scanf("%d", &first);
 
-    if (first == 1 || (first == 0 && pin == 0)) {
+    if (first == 1) {
         int newpin, confirmpin;
+
         while (1) {
             printf("Create your PIN: ");
             scanf("%d", &newpin);
+
             printf("Confirm your PIN: ");
             scanf("%d", &confirmpin);
 
@@ -37,10 +37,10 @@ int main() {
         }
     }
 
-    // Step 2: PIN validation (3 attempts)
     int attempts = 3;
     while (attempts > 0) {
         int entered;
+
         printf("Enter PIN to login: ");
         scanf("%d", &entered);
 
@@ -58,7 +58,6 @@ int main() {
         }
     }
 
-    // Step 3: ATM Menu
     while (1) {
         printf("\n--- ATM MENU ---\n");
         printf("1. Balance Enquiry\n");
@@ -71,8 +70,10 @@ int main() {
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1: // Balance enquiry
-                printf("Your current balance is: %.2f\n", balance);
+
+            case 1:
+                printf("Current Balance: %.2f\n", balance);
+
                 if (count < 10) {
                     type[count] = 1;
                     amount[count] = 0;
@@ -81,13 +82,15 @@ int main() {
                 }
                 break;
 
-            case 2: { // Deposit
+            case 2: {
                 float deposit;
-                printf("Enter amount to deposit: ");
+                printf("Enter deposit amount: ");
                 scanf("%f", &deposit);
+
                 if (deposit > 0) {
                     balance += deposit;
-                    printf("Deposited %.2f successfully!\n", deposit);
+                    printf("Deposit successful!\n");
+
                     if (count < 10) {
                         type[count] = 2;
                         amount[count] = deposit;
@@ -100,13 +103,15 @@ int main() {
                 break;
             }
 
-            case 3: { // Withdraw
+            case 3: {
                 float withdraw;
-                printf("Enter amount to withdraw: ");
+                printf("Enter withdrawal amount: ");
                 scanf("%f", &withdraw);
+
                 if (withdraw > 0 && withdraw <= balance) {
                     balance -= withdraw;
-                    printf("Withdrawn %.2f successfully!\n", withdraw);
+                    printf("Withdrawal successful!\n");
+
                     if (count < 10) {
                         type[count] = 3;
                         amount[count] = withdraw;
@@ -119,11 +124,12 @@ int main() {
                 break;
             }
 
-            case 4: // Transaction history
+            case 4:
                 if (count == 0) {
                     printf("No transactions yet.\n");
                 } else {
-                    printf("\n--- TRANSACTION HISTORY ---\n");
+                    printf("\n--- Transaction History ---\n");
+
                     for (i = 0; i < count; i++) {
                         if (type[i] == 1)
                             printf("%d. Balance Check | Balance: %.2f\n", i+1, after[i]);
@@ -135,15 +141,19 @@ int main() {
                 }
                 break;
 
-            case 5: { // Change PIN
+            case 5: {
                 int oldPin, newPin, confirm;
+
                 printf("Enter current PIN: ");
                 scanf("%d", &oldPin);
+
                 if (oldPin == pin) {
                     printf("Enter new PIN: ");
                     scanf("%d", &newPin);
+
                     printf("Confirm new PIN: ");
                     scanf("%d", &confirm);
+
                     if (newPin == confirm) {
                         pin = newPin;
                         printf("PIN changed successfully!\n");
@@ -156,12 +166,12 @@ int main() {
                 break;
             }
 
-            case 6: // Exit
-                printf("Thank you for using Student ATM. Goodbye!\n");
+            case 6:
+                printf("Thank you for using Student ATM!\n");
                 return 0;
 
             default:
-                printf("Invalid choice. Please try again.\n");
+                printf("Invalid choice.\n");
         }
     }
 
